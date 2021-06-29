@@ -230,13 +230,6 @@ while True:
 
             if curcent:  # if there is a current centroid
 
-                # On-screen text for current centroid
-                cv2.putText(image, "Centroid" + str(curcent[0]) + "," + str(curcent[1]),
-                            (int(curcent[0]), int(curcent[1])), cv2.FONT_HERSHEY_SIMPLEX, .5, (0, 255, 255), 2)
-
-                cv2.drawMarker(image, (int(curcent[0]), int(curcent[1])), (0, 0, 255), cv2.MARKER_STAR, markerSize=5,
-                               thickness=1, line_type=cv2.LINE_AA)
-
                 if oldcent:  # checks if old centroid exists
                     # adds radius box from previous centroid to current centroid for visualization
                     xstart = oldcent[0] - maxrad
