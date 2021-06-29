@@ -271,7 +271,8 @@ while True:
                     2)
         cv2.putText(image, "Cars Entered: " + str(carscrosseddown), (450, 60), cv2.FONT_HERSHEY_SIMPLEX, .75, (0, 0, 255),
                     2)
-        cv2.putText(image, "Total Cars: " + str(2+carscrossedup-carscrosseddown), (450, 90), cv2.FONT_HERSHEY_SIMPLEX, .75, (0, 0, 255),
+        totalcars=2+carscrossedup-carscrosseddown
+        cv2.putText(image, "Total Cars: " + str(totalcars), (450, 90), cv2.FONT_HERSHEY_SIMPLEX, .75, (0, 0, 255),
                     2)
 
         # displays images and transformations
