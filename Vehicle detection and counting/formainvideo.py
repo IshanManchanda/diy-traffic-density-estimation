@@ -85,7 +85,7 @@ while True:
                     cx = int(M['m10'] / M['m00'])
                     cy = int(M['m01'] / M['m00'])
 
-                    if ((cy > lineypos)&(cx>270)&(cx<710)&((cy-(2.417*cx)+1470.83)>0)&((cy+(1.27*cx)-602.1428)>0)):  # filters out contours that are above line (y starts at top)
+                    if ((cy > (lineypos-25))&(cx>270)&(cx<710)&((cy-(2.417*cx)+1470.83)>0)&((cy+(1.27*cx)-602.1428)>0)):  # filters out contours that are above line (y starts at top)
 
                         # gets bounding points of contour to create rectangle
                         # x,y is top left corner and w,h is width and height
