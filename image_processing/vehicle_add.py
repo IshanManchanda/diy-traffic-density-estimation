@@ -6,8 +6,8 @@ import time
 import matplotlib
 from matplotlib.animation import FuncAnimation
 
-largura_min=80 #Largura minima do retangulo
-altura_min=80 #Altura minima do retangulo
+lmin=80 #Largura minima do retangulo
+amin=80 #Altura minima do retangulo
 offset=6 #Erro permitido entre pixel  
 pos_linha=750 
 upper=200 #Posição da linha de contagem 
@@ -15,7 +15,7 @@ delay= 60 #FPS do vídeo
 
 detec = []
 detec_trans=[]
-carros= 0	
+count= 0	
 def pega_centro(x, y, w, h):
     x1 = int(w / 2)
     y1 = int(h / 2)
@@ -26,8 +26,8 @@ def pega_centro(x, y, w, h):
 input_img=cv2.imread("/home/anjali/Downloads/empty.jpg")
 cap= cv2.VideoCapture('/home/anjali/Downloads/trafficvideo.mp4')
 
-subtracao = cv2.bgsegm.createBackgroundSubtractorMOG()
-subtracao_trans = cv2.bgsegm.createBackgroundSubtractorMOG()
+subtract = cv2.bgsegm.createBackgroundSubtractorMOG()
+
 file1 = open("count_+.txt","a")
 def pointsAreOnSameSideOfLine(a, b, c, x1, y1, x2, y2):
 	fx1 = 0 # Variable to store a * x1 + b * y1 - c
@@ -75,18 +75,18 @@ while True:
 
 
     blur = cv2.GaussianBlur(grey,(3,3),5)
-    img_sub = subtracao.apply(blur)
-    dilat = cv2.dilate(img_sub,np.ones((5,5)))
+    img_sub = subtract.apply(blur)
+    dilate = cv2.dilate(img_sub,np.ones((5,5)))
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
-    dilatada = cv2.morphologyEx (dilat, cv2. MORPH_CLOSE , kernel)
+    dilatada = cv2.morphologyEx (dilate, cv2. MORPH_CLOSE , kernel)
     dilatada = cv2.morphologyEx (dilatada, cv2. MORPH_CLOSE , kernel)
-    contorno,h=cv2.findContours(dilatada,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    contours,h=cv2.findContours(dilatada,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     
     cv2.line(frame1, (553, pos_linha), (1500, pos_linha), (255,127,0), 3) 
     cv2.line(frame1, (205, upper), (1500, upper), (255,127,0), 3) 
-    for(i,c) in enumerate(contorno):
+    for(i,c) in enumerate(contours):
         (x,y,w,h) = cv2.boundingRect(c)
-        validar_contorno = (w >= largura_min) and (h >= altura_min)
+        validar_contours = (w >=lmin) and (h >= amin)
         if not validar_contorno:
             continue      
         centro = pega_centro(x, y, w, h)
@@ -96,7 +96,7 @@ while True:
         for (x,y) in detec:
      
             if y<(pos_linha+offset) and y>(pos_linha-offset) and pointsAreOnSameSideOfLine(a1,b1,c1,x,y,1125,425) and pointsAreOnSameSideOfLine(a2,b2,c2,x,y,1125,425) and np.dot(vectorAB,[[976-x],[226-y]])>0 and np.dot(vectorBA,[[553-x],[863-y]])>0:
-                carros+=1
+                count+=1
                 cv2.line(frame1, (205, pos_linha), (1500, pos_linha), (0,127,255), 3)  
                 detec.remove((x,y))
             
@@ -104,8 +104,8 @@ while True:
   
 
     with open("count_+.txt", "a") as file1:
-      file1.write(str(carros)+'\n')     
-    cv2.putText(frame1, "VEHICLE COUNT : "+str(carros), (450, 70), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)
+      file1.write(str(count)+'\n')     
+    cv2.putText(frame1, "VEHICLE COUNT : "+str(count), (450, 70), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255),5)
     cv2.imshow("Video Original" , frame1)
     cv2.imshow("Detectar",dilatada)
         
