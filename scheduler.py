@@ -54,9 +54,9 @@ class Scheduler:
 		self.conf_steps = 4  # Number of time steps we're confirming
 		self.conf_road = -1  # Road index we're watching for confirmation
 
-	def update(self, detections):
+	def update(self, detections) -> (bool, bool, int):
 		"""
-		Constructs the Traffic Scheduler object.
+		Update the Scheduler at a time step and get desired signal state.
 
 		:param detections: List containing the number of detected vehicles
 		at each of the roads. Must have length equal to n_roads.
@@ -112,7 +112,9 @@ class Scheduler:
 		return False, False, self.current
 
 	def _compute_all_scores(self, detections):
-		# TODO: Add docstring
+		"""
+		Helper function to compute traffic scores for all roads at intersection
+		"""
 		traffic_scores = []
 		max_idx = 0
 		for i in range(self.n_roads):
@@ -131,7 +133,14 @@ class Scheduler:
 		return traffic_scores, max_idx
 
 	def _compute_traffic_score(self, current, accumulation, wait, n_lane):
-		# TODO: Add docstring
+		"""
+		Helper function to compute the traffic score of a particular road
+		"""
+		# If the road is empty, we never want to consider it
+		# Return negative infinity for score
+		if accumulation == 0:
+			return float('-inf')
+
 		# Initialize score with the 'current' term
 		score = self.k_current * current * n_lane
 
@@ -144,7 +153,10 @@ class Scheduler:
 		return score
 
 	def _handle_confirmation(self, detections):
-		# TODO: Add docstring
+		"""
+		Helper function to implement confirmation mechanism
+		"""
+
 		# Compute traffic scores for the current and confirmation road
 		conf_score = self._compute_traffic_score(
 			current=0, accumulation=detections[self.conf_road],
@@ -183,5 +195,3 @@ class Scheduler:
 		# Update current road and return values for signal transition
 		self.current = self.conf_road
 		return True, False, self.conf_road
-
-
