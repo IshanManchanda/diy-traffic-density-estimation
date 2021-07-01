@@ -9,13 +9,14 @@ from matplotlib.animation import FuncAnimation
 lmin=80 #Largura minima do retangulo
 amin=80 #Altura minima do retangulo
 offset=6 #Erro permitido entre pixel  
-pos_linha=750 
+pos=750 
 upper=200 #Posição da linha de contagem 
 delay= 60 #FPS do vídeo
 
 detec = []
 detec_trans=[]
-count= 0	
+count= 0
+##finding the center of the rectangle
 def pega_centro(x, y, w, h):
     x1 = int(w / 2)
     y1 = int(h / 2)
@@ -82,7 +83,7 @@ while True:
     dilatada = cv2.morphologyEx (dilatada, cv2. MORPH_CLOSE , kernel)
     contours,h=cv2.findContours(dilatada,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
     
-    cv2.line(frame1, (553, pos_linha), (1500, pos_linha), (255,127,0), 3) 
+    cv2.line(frame1, (553, pos), (1500, pos), (255,127,0), 3) 
     cv2.line(frame1, (205, upper), (1500, upper), (255,127,0), 3) 
     for(i,c) in enumerate(contours):
         (x,y,w,h) = cv2.boundingRect(c)
@@ -95,9 +96,9 @@ while True:
 
         for (x,y) in detec:
      
-            if y<(pos_linha+offset) and y>(pos_linha-offset) and pointsAreOnSameSideOfLine(a1,b1,c1,x,y,1125,425) and pointsAreOnSameSideOfLine(a2,b2,c2,x,y,1125,425) and np.dot(vectorAB,[[976-x],[226-y]])>0 and np.dot(vectorBA,[[553-x],[863-y]])>0:
+            if y<(pos+offset) and y>(pos-offset) and pointsAreOnSameSideOfLine(a1,b1,c1,x,y,1125,425) and pointsAreOnSameSideOfLine(a2,b2,c2,x,y,1125,425) and np.dot(vectorAB,[[976-x],[226-y]])>0 and np.dot(vectorBA,[[553-x],[863-y]])>0:
                 count+=1
-                cv2.line(frame1, (205, pos_linha), (1500, pos_linha), (0,127,255), 3)  
+                cv2.line(frame1, (205, pos), (1500, pos), (0,127,255), 3)  
                 detec.remove((x,y))
             
                 cv2.rectangle(frame1,(x,y),(x+w,y+h),(0,255,0),-1) 
