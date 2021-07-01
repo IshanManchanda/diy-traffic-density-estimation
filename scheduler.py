@@ -192,6 +192,11 @@ class Scheduler:
 		for i in range(self.n_roads):
 			self.wait_times[i] = 0
 
+		# Reset the confirmation variables
+		self.confirmation = False
+		self.conf_timer = 0
+		self.conf_road = -1
+
 		# Update current road and return values for signal transition
 		self.current = self.conf_road
 		return True, False, self.conf_road
