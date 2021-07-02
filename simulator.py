@@ -1,9 +1,11 @@
+import os
+
 from scheduler import Scheduler
 
 
-def main():
-    inputData = open('schedulerData.txt', 'rt')
-
+def simulateSignal(inputPath):
+    inputData = open(inputPath, 'r')
+    outputFile = open(os.path.dirname(inputPath) + "/simulation_output.txt", "w")
     n_roads = 4
     n_lanes = [2, 2, 2, 2]
     k_c = 1
@@ -18,7 +20,7 @@ def main():
     i = 0
     while i < len(lineArray):
         if confirmation:
-            print(f"Road {whoGreen} is shown the green signal {i}")
+            outputFile.write(f"Road {whoGreen} is shown the green signal {i}\n")
             accumulations[whoGreen] -= n_lanes[whoGreen]
 
             increase = [int(j) for j in lineArray[i]]
@@ -33,8 +35,8 @@ def main():
             i += 1
 
         elif i + 1 < len(lineArray):
-            print(f"Road {whoGreen} is shown the green signal {i}")
-            print(f"Road {whoGreen} is shown the green signal {i}")
+            outputFile.write(f"Road {whoGreen} is shown the green signal {i}\n")
+            outputFile.write(f"Road {whoGreen} is shown the green signal {i}\n")
             accumulations[whoGreen] -= n_lanes[whoGreen] * 2
 
             increase1 = [int(j) for j in lineArray[i]]
@@ -49,7 +51,4 @@ def main():
             i += 2
         else:
             break
-
-
-if __name__ == '__main__':
-    main()
+    return True
