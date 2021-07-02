@@ -95,7 +95,8 @@ class Scheduler:
 
 		# If no road is currently active, simply use the maximum score road
 		if self.current == -1:
-			# Change_rn, increase_polling, change_to
+			self.current = max_idx
+			# transition, confirmation, road_idx
 			return True, False, max_idx
 
 		# Compute difference in traffic score between max and current road
