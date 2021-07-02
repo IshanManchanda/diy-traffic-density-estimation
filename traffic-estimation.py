@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from detection.Detection import getOutput
 from image_processing.video_write import transformVideo
 from simulator import simulateSignal
+from image_processing.final_plot import performPlot
 
 
 class window(QWidget):
@@ -54,6 +55,9 @@ class window(QWidget):
         self.simulateButton.clicked.connect(self.simulate)
         self.browse2Layout.addWidget(self.simulateButton)
         self.fullLayout.addLayout(self.browse2Layout)
+        self.plotButton = QPushButton('Display plot')
+        self.plotButton.clicked.connect(self.displayPlot)
+        self.fullLayout.addWidget(self.plotButton)
 
     def getVideoFile(self):
         self.filename = QFileDialog.getOpenFileName(self, "Select video", filter="Video Files (*.avi *.mp4)")
@@ -114,6 +118,9 @@ class window(QWidget):
                 msgBox.setIcon(QMessageBox.Information)
                 msgBox.setStandardButtons(QMessageBox.Ok)
                 msgBox.exec_()
+
+    def displayPlot(self):
+        performPlot()
 
 
 def main():
