@@ -1,6 +1,6 @@
 import os
 
-from scheduler import Scheduler
+from scheduler.scheduler import Scheduler
 
 
 def simulateSignal(inputPath):
