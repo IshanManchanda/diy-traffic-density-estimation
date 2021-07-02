@@ -29,8 +29,8 @@ img_path = os.path.join(
 )
 video_path = os.path.join(base_path, "trafficvideo.mp4")
 
-input_img=cv2.imread("img_path")
-cap= cv2.VideoCapture('video_path')
+input_img=cv2.imread(img_path)
+cap= cv2.VideoCapture(video_path)
 
 subtract = cv2.bgsegm.createBackgroundSubtractorMOG()
 
