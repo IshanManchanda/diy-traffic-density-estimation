@@ -25,11 +25,16 @@ def pega_centro(x, y, w, h):
     cx = x + x1
     cy = y + y1
     return cx,cy
+base_path = os.path.dirname(os.path.abspath(__file__))
+img_path = os.path.join(
+	base_path, "empty.jpg"
+)
+video_path = os.path.join(base_path, "trafficvideo.mp4")
 
-input_img=cv2.imread("/home/anjali/Downloads/empty.jpg")
+input_img=cv2.imread(img_path)
 h,w,k=input_img.shape
 
-cap= cv2.VideoCapture('/home/anjali/Downloads/trafficvideo.mp4')
+cap= cv2.VideoCapture(video_path)
 frame_width = int(cap.get(3))
 
 frame_height = int(cap.get(4))
