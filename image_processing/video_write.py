@@ -1,8 +1,13 @@
 
 import cv2
 import numpy as np
+from pathlib import Path
 
+HERE = Path(__file__).parent.resolve()
+PATH = HERE / 'empty.jpg'
 
+if PATH.exists():
+    print('exists!')
 input_img=cv2.imread("/home/anjali/Downloads/empty.jpg")
 
 cap= cv2.VideoCapture('/home/anjali/Downloads/trafficvideo.mp4')
